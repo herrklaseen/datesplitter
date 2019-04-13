@@ -4,15 +4,20 @@
   "description": "Utility to generate timestamps within a given range",
   "main": "index.js",
   "scripts": {
-    "test": "test"
+    "test": "mocha -r ts-node/register test/**/*.spec.ts"
   },
   "author": "Henning Klasén",
   "license": "ISC",
   "devDependencies": {
     "@types/chai": "^4.1.4",
+    "@types/chai-string": "^1.4.1",
     "@types/mocha": "^5.2.4",
     "chai": "^4.1.2",
+    "chai-string": "^1.4.0",
     "mocha": "^5.2.0",
-    "ts-node": "^7.0.0"
-  }
+    "ts-node": "^7.0.0",
+    "moment": "2.x",
+    "typescript": "^2.9.2"
+  },
+  "dependencies": {}
 }
