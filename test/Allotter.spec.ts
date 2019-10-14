@@ -31,10 +31,17 @@ describe('Allotter allot()', () => {
     })
 
     describe('with 2 slots and 2 parts', () => {
-        it('should return 2 slots with 1 part', () => {
+        it('should return 2 slots', () => {
             const partsPerSlot = Allotter.allot(2, 2);
 
             expect(partsPerSlot.length).to.eq(2);
+        });
+    })
+
+    describe('with 2 slots and 2 parts', () => {
+        it('should return 2 slots with 1 part each', () => {
+            const partsPerSlot = Allotter.allot(2, 2);
+
             expect(partsPerSlot[0]).to.eq(1);
             expect(partsPerSlot[1]).to.eq(1);
         });
@@ -44,7 +51,6 @@ describe('Allotter allot()', () => {
         it('should return 2 slots with 1 part in first slot and 2 parts in second', () => {
             const partsPerSlot = Allotter.allot(2, 3);
 
-            expect(partsPerSlot.length).to.eq(2);
             expect(partsPerSlot[0]).to.eq(1);
             expect(partsPerSlot[1]).to.eq(2);
         });
