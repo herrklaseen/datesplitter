@@ -20,6 +20,7 @@
     "typescript": "^2.9.2"
   },
   "dependencies": {
+    "@types/mathjs": "^6.0.2",
     "mathjs": "^5.9.0"
   }
 }
