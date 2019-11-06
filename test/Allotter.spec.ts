@@ -10,6 +10,20 @@ import { Allotter } from '../src/Allotter';
 
 const defaultDateFormat = 'YYYY-MM-DD HH:mm:ss';
 
+describe('Allotter errors', () => {
+    describe('with non-integer parts input', () => {
+        it('should throw an error', () => {
+                expect(() => { Allotter.allot(1.2341, 1) }).to.throw();
+        });
+    });
+
+    describe('with non-integer slots input', () => {
+        it('should throw an error', () => {
+                expect(() => { Allotter.allot(1, 1.2341) }).to.throw();
+        });
+    });
+});
+
 describe('Allotter allot()', () => {
 
     describe('with 1 slot and 1 part', () => {
@@ -23,7 +37,7 @@ describe('Allotter allot()', () => {
 
     describe('with 1 slot and 2 parts', () => {
         it('should return 1 slot with 2 parts', () => {
-            const partsPerSlot = Allotter.allot(1, 2);
+            const partsPerSlot = Allotter.allot(2, 1);
 
             expect(partsPerSlot.length).to.eq(1);
             expect(partsPerSlot[0]).to.eq(2);
@@ -49,7 +63,7 @@ describe('Allotter allot()', () => {
 
     describe('with 2 slots and 3 parts', () => {
         it('should return 2 slots with 1 part in first slot and 2 parts in second', () => {
-            const partsPerSlot = Allotter.allot(2, 3);
+            const partsPerSlot = Allotter.allot(3, 2);
 
             expect(partsPerSlot[0]).to.eq(1);
             expect(partsPerSlot[1]).to.eq(2);
@@ -58,7 +72,7 @@ describe('Allotter allot()', () => {
 
     describe('with 2 slots and 3 parts', () => {
         it('total number of parts should be 3', () => {
-            const partsPerSlot = Allotter.allot(2, 3);
+            const partsPerSlot = Allotter.allot(3, 2);
             const totalPartsAllotted = partsPerSlot.reduce((acc, current) => {
                 return acc + current;
             });

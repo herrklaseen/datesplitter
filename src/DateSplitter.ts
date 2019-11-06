@@ -1,4 +1,5 @@
 import { DateUtil } from './DateUtil';
+import { Allotter } from './Allotter';
 
 export class DateSplitter {
     private start: Date;
@@ -23,27 +24,27 @@ export class DateSplitter {
         this.parseOptions(options);
 
         const fullDays = DateUtil.daysInInterval(this.start, this.end);
-        const partsPerDay = parts / fullDays;
-        let dayCounter = 0;
-        let partCounter = 0;
+        const slots = fullDays + 1;
+        const distribution = Allotter.allot(parts , slots);
+        const returnDates: Date[] = [];
 
-        while (dayCounter <= fullDays) {
-            dayCounter++;
-        }
-        const duration = this.getDurationAtDate(this.start);
+        for (let dayIndex = 0; dayIndex < distribution.length; dayIndex++) {
+            const dateAtIndex = new Date(this.start.getTime());
+            dateAtIndex.setDate(dateAtIndex.getDate() + dayIndex);
 
+            const duration = this.getDurationAtDate(dateAtIndex);
+            // Divide the duration with the number of parts at the current slot, 
+            // but remove one from the parts to eventually get dates that
+            // start and end exactly at the specified interval.
+            const divisor = distribution[dayIndex] === 1 ? distribution[dayIndex] : distribution[dayIndex] - 1;
+            const interval = Math.floor(
+                this.getDurationInMillis(duration[0], duration[1]) / divisor
+            );
 
-        if (parts === 1) {
-            return [duration[0]];
-        }
-
-        let interval = Math.floor(this.getDurationInMillis(duration[0], duration[1]) / (parts - 1));
-
-        let returnDates: Date[] = [];
-
-        for (let i = 0; i < parts; i++) {
-            let aDate = new Date(duration[0].getTime() + (i * interval));
-            returnDates.push(aDate);
+            for (let j = 0; j < distribution[dayIndex]; j++) {
+                let aDate = new Date(duration[0].getTime() + (j * interval));
+                returnDates.push(aDate);
+            }
         }
 
         return returnDates;
